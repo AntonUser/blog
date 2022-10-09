@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CommentController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [ArticleController::class, 'getAll']);
+
+Route::get('/article/{id}', [ArticleController::class, 'get']);
+
+Route::post('/article/create', [ArticleController::class, 'create']);
+
+Route::post('/comment/create', [CommentController::class, 'create']);
+
