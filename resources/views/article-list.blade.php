@@ -10,6 +10,7 @@
     <title>Articles</title>
 </head>
 <body>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 @if($errors ->any())
     <div class="alert alert-danger">
         <ul>
@@ -20,11 +21,25 @@
     </div>
 @endif()
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+
 <div class="input-group">
     <div class="form-outline">
         <input type="search" id="search" name="search" class="form-control" placeholder="Search"/>
     </div>
+</div>
+<div>
+    <select id="select" name="select">
+        <option name="option" id="option">Not selected</option>
+        @foreach(array_unique( array(...$categories)) as $category)
+            <option name="option" id="option">{{$category}}</option>
+        @endforeach()
+    </select>
+    <label for="start">Start date:
+        <input type="date" id="start_date" name="start_date">
+    </label>
+    <label for="end">End date:
+        <input type="date" id="end_date" name="end_date">
+    </label>
 </div>
 <div id="tab_page" name="tab_page">
     <table class="table">
@@ -51,39 +66,28 @@
 </div>
 <input type="hidden" name="page_on" id="page_on" value="{{ $articles->currentPage() }}">
 <div>
-    <select id="select" name="select">
-        <option name="option" id="option">Not selected</option>
-        @foreach(array_unique( array(...$categories)) as $category)
-            <option name="option" id="option">{{$category}}</option>
-        @endforeach()
-    </select>
-    <label for="start">Start date:
-        <input type="date" id="start_date" name="start_date">
-    </label>
-    <label for="end">End date:
-        <input type="date" id="end_date" name="end_date">
-    </label>
+    <h5>Add article</h5>
+    <form action="/article/create" method="post" style="width: 50%">
+        @csrf
+        <div class="form-group">
+            <label>Title</label>
+            <input class="form-control" type="text" placeholder="Title" id="title" name="title">
+        </div>
+        <div class="form-group">
+            <label>Author</label>
+            <input class="form-control" type="text" placeholder="FirstName Lastname" id="author" name="author">
+        </div>
+        <div class="form-group">
+            <label>Category</label>
+            <input class="form-control" type="text" placeholder="Category" id="category" name="category">
+        </div>
+        <div class="form-group">
+            <label>Content</label>
+            <input class="form-control" type="text" placeholder="Please enter your post" id="content" name="content">
+        </div>
+        <button type="submit" class="btn btn-primary">Crete Article</button>
+    </form>
 </div>
-<form action="/article/create" method="post" style="width: 50%">
-    @csrf
-    <div class="form-group">
-        <label>Title</label>
-        <input class="form-control" type="text" placeholder="Title" id="title" name="title">
-    </div>
-    <div class="form-group">
-        <label>Author</label>
-        <input class="form-control" type="text" placeholder="FirstName Lastname" id="author" name="author">
-    </div>
-    <div class="form-group">
-        <label>Category</label>
-        <input class="form-control" type="text" placeholder="Category" id="category" name="category">
-    </div>
-    <div class="form-group">
-        <label>Content</label>
-        <input class="form-control" type="text" placeholder="Please enter your post" id="content" name="content">
-    </div>
-    <button type="submit" class="btn btn-primary">Crete Article</button>
-</form>
 <script type="text/javascript">
     $(document).ready(function () {
         $('select').change(function () {
